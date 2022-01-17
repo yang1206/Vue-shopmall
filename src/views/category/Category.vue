@@ -1,0 +1,116 @@
+<template id="Category">
+  <div class="wrapper">
+    <ul class="content">
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+      <li>sa</li>
+    </ul>
+  </div>
+</template>
+<script>
+
+export default {
+  name: "Category",
+ 
+};
+</script>
+<style>
+
+</style>
