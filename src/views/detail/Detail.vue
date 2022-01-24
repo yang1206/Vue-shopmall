@@ -1,15 +1,39 @@
 <template>
   <div id="detail">
-    <detail-nav-bar class="detail-nav" />
-    <scroll ref="scroll" class="content" :probe-type="3" :pullUpLoad="true">
-      <detail-swiper :topImages="topImages" />
+    <detail-nav-bar class="detail-nav" @itemClick="titleClick" ref="nav" />
+    <!-- <ul v-for="(item,index) in $store.state.cartList" :key="index">
+       <li>{{item}}</li>
+     </ul> -->
+    <scroll
+      ref="scroll"
+      class="content"
+      :probe-type="3"
+      :pullUpLoad="true"
+      @scroll="contentScroll"
+    >
+      <detail-swiper :topImages="topImages" class="detail-set-scroll" />
       <detail-base-info :goods="goods" />
       <detail-shop-info :shop="shop" />
       <detail-goods-info :detailInfo="detailInfo" @imgLoad="imgLoad" />
-      <detail-param-info :paramInfo="paramInfo" />
-      <detail-comment-info :commentInfo="commentInfo" />
-      <goods-list :goods="recommends"/>
+      <detail-param-info
+        ref="param"
+        :paramInfo="paramInfo"
+        class="detail-set-scroll"
+      />
+      <detail-comment-info
+        ref="comment"
+        :commentInfo="commentInfo"
+        class="detail-set-scroll"
+      />
+      <goods-list
+        ref="recommend"
+        :goods="recommends"
+        class="detail-set-scroll"
+      />
     </scroll>
+    <detail-bottom-bar @addCart="addToCart" />
+    <back-top @click.native="backClick" v-show="isShowBackTop" />
+    <!-- <toast  :messages="messages" :show="show"/> -->
   </div>
 </template>
 
@@ -21,12 +45,21 @@ import DetailShopInfo from "./childComps/DetailShopInfo.vue";
 import DetailGoodsInfo from "./childComps/DetailGoodsInfo.vue";
 import DetailParamInfo from "./childComps/DetailParamInfo.vue";
 import DetailCommentInfo from "./childComps/DetailCommentInfo.vue";
-import GoodsList from "@/components/content/goods/GoodsList.vue"
-
+import DetailBottomBar from "./childComps/DetailBottomBar.vue";
+import GoodsList from "@/components/content/goods/GoodsList.vue";
 import Scroll from "@/components/common/scroll/Scroll.vue";
+// import Toast from '@/components/common/toast/Toast.vue'
 
-import { getDetail, Goods, Shop, GoodsParam,getRecommend} from "@/network/detail.js";
-import {itemListenerMixin} from "@/common/mixin.js"
+import {
+  getDetail,
+  Goods,
+  Shop,
+  GoodsParam,
+  getRecommend,
+} from "@/network/detail.js";
+import { itemListenerMixin, backTopMixin } from "@/common/mixin.js";
+
+import { mapActions } from "vuex";
 export default {
   name: "Detail",
   components: {
@@ -37,11 +70,12 @@ export default {
     DetailGoodsInfo,
     DetailParamInfo,
     DetailCommentInfo,
+    DetailBottomBar,
     GoodsList,
     Scroll,
-
+    // Toast
   },
-  mixins:[itemListenerMixin],
+  mixins: [itemListenerMixin, backTopMixin],
   data() {
     return {
       iid: null,
@@ -51,9 +85,15 @@ export default {
       detailInfo: {},
       paramInfo: {},
       commentInfo: {},
-      recommends:[]
+      recommends: [],
+      themeTopYs: [],
+      getThemeTopY: null,
+      currentIndex: 0,
+      // messages:'',
+      // show:false
     };
   },
+
   created() {
     //1.保存传入的iid
     this.iid = this.$route.params.iid;
@@ -84,14 +124,88 @@ export default {
       }
     });
     //请求推荐数据
-    getRecommend().then(res =>{
-      this.recommends = res.data.list
-    })
+    getRecommend().then((res) => {
+      this.recommends = res.data.list;
+    });
   },
- 
+  mounted() {
+    this.themeTopYs.push;
+  },
   methods: {
+    ...mapActions(['addCart']),
     imgLoad() {
       this.$refs.scroll.refresh();
+      this.getNavList();
+    },
+    titleClick(index) {
+      this.$nextTick(() => {
+        //better scroll自带的api scrollToElement 滚动到指定的目标元素。
+        let el = document.getElementsByClassName("detail-set-scroll");
+        this.$refs.scroll.scrollToElement(el[index], 300);
+      });
+    },
+    //获取tapcontarl四个部分的offsetTop
+    getNavList() {
+      this.$nextTick(() => {
+        this.themeTopYs = [];
+        this.themeTopYs.push(0);
+        this.themeTopYs.push(this.$refs.param.$el.offsetTop);
+        this.themeTopYs.push(this.$refs.comment.$el.offsetTop);
+        this.themeTopYs.push(this.$refs.recommend.$el.offsetTop);
+        this.themeTopYs.push(Number.MAX_VALUE);
+        //
+      });
+    },
+    //根据offsettop判断curentrindex
+    contentScroll(position) {
+      const positionY = -position.y;
+      let length = this.themeTopYs.length;
+      // console.log(length);
+      for (let i = 0; i < length - 1; i++) {
+        // if(positionY > this.themeTopYs[parseInt(i)] && positionY < this.themeTopYs[i+1]){
+        //   console.log(i);
+        // }
+        if (
+          this.currentIndex !== i &&
+          positionY >= this.themeTopYs[i] &&
+          positionY < this.themeTopYs[i + 1]
+        ) {
+          this.currentIndex = i;
+          this.$refs.nav.currentIndex = this.currentIndex;
+          // console.log(this.currentIndex);
+        }
+      }
+      //是否显示返回顶部
+      this.listenShowBackTop(position);
+    },
+    addToCart() {
+      const product = {};
+      product.image = this.topImages[0];
+      product.title = this.goods.title;
+      product.desc = this.goods.desc;
+      product.price = this.goods.realPrice;
+      product.iid = this.iid;
+
+
+      //map映射写法 vuex
+      this.addCart(product).then(res =>{
+        // this.show = true;
+        // this.messages = res
+
+        // setTimeout(()=>{
+        //   this.show = false
+        // },1500)
+        // console.log(res);
+        this.$toast.toastShow(res,2000)
+        // console.log(this.$toast);
+
+
+      })
+
+      //正常写法
+      // this.$store.dispatch("addCart", product).then((res) => {
+      //   console.log(res);
+      // });
     },
   },
 };
@@ -114,6 +228,6 @@ export default {
   /* position: absolute;
   top: 44px; */
   /* bottom: 49px; */
-  height: calc(100% - 44px);
+  height: calc(100% - 44px - 49px);
 }
 </style>

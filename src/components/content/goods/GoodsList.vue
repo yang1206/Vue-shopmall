@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="goods">
-      <goods-list-item v-for="(item,index) in goods" :goodsItem="item" :key="index"/>
+      <goods-list-item v-for="(item,index) in goods" :goodsItem="item" :key="index" />
     </div>
   </div>
 </template>
@@ -22,7 +22,7 @@ export default {
       },
     },
   },
-  
+ 
 };
 </script>
 

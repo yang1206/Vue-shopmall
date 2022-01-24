@@ -4,12 +4,12 @@
       <template v-slot:center> 购物街 </template>
     </nav-bar>
     <tab-control
-        :titles="['流行', '新款', '精选']"
-        class="tab-control"
-        @tabClick="tabClick"
-        ref="tabControl1"
-        v-show="isTabFixed"
-      />
+      :titles="['流行', '新款', '精选']"
+      class="tab-control"
+      @tabClick="tabClick"
+      ref="tabControl1"
+      v-show="isTabFixed"
+    />
     <scroll
       class="content"
       ref="scroll"
@@ -26,7 +26,6 @@
         class="tabControl"
         @tabClick="tabClick"
         ref="tabControl2"
-        
       />
       <goods-list :goods="showGoods" />
     </scroll>
@@ -45,6 +44,7 @@ import Scroll from "@/components/common/scroll/Scroll.vue";
 import backTop from "@/components/common/backtop/backTop.vue";
 
 import { getHomeMultidata, getHomeGoods } from "@/network/home";
+import { backTopMixin } from "@/common/mixin.js";
 export default {
   name: "Home",
   components: {
@@ -57,6 +57,7 @@ export default {
     Scroll,
     backTop,
   },
+  mixins: [backTopMixin],
   data() {
     return {
       banners: [],
@@ -67,23 +68,19 @@ export default {
         sell: { page: 0, list: [] },
       },
       currentType: "pop",
-      isShowBackTop: false,
       tabOffsetTop: 0,
-      isTabFixed:false,
-      saveY:0
+      isTabFixed: false,
+      saveY: 0,
     };
   },
-  activated(){
-    this.$refs.scroll.refresh()
-    this.$refs.scroll.scrollTo(0,this.saveY,0)
-    
+  activated() {
+    this.$refs.scroll.refresh();
+    this.$refs.scroll.scrollTo(0, this.saveY, 0);
   },
-  deactivated(){
+  deactivated() {
     //1.保存Y值
-    this.saveY = this.$refs.scroll.getScrollY()
+    this.saveY = this.$refs.scroll.getScrollY();
     // console.log(this.saveY);
-   
-    
   },
   created() {
     //首页多个数据
@@ -93,8 +90,7 @@ export default {
     this.getHomeGoods("new");
     this.getHomeGoods("sell");
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     //事件监听
     tabClick(index) {
@@ -112,14 +108,12 @@ export default {
       this.$refs.tabControl1.currentIndex = index;
       this.$refs.tabControl2.currentIndex = index;
     },
-    backClick() {
-      this.$refs.scroll.scrollTo(0, 0, 500);
-    },
     contentScroll(position) {
       //1.判断BackTop是否显示
-      this.isShowBackTop = -position.y > 1000;
+      this.listenShowBackTop(position);
+      // console.log(position);
       //2.决定tabControl是否吸顶(position:fixed)
-      this.isTabFixed = (-position.y  > this.tabOffsetTop)
+      this.isTabFixed = -position.y > this.tabOffsetTop;
     },
     //上拉加载更多
     loadMore() {
@@ -127,7 +121,8 @@ export default {
       this.$refs.scroll.scroll.refresh();
     },
     swiperImageLoad() {
-      this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop
+      this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop;
+      // console.log(this.tabOffsetTop);
     },
 
     //请求数据api的方法
@@ -148,6 +143,7 @@ export default {
     },
   },
   computed: {
+    //是否显示返回顶部  利用mixin混入 抽取
     showGoods() {
       return this.goods[this.currentType].list;
     },
@@ -155,15 +151,13 @@ export default {
 };
 </script>
 <style scoped>
-/* #home {
-  height: 100vh;
-} */
 .home-nav {
   background-color: var(--color-tint);
   color: #fff;
   /* position: sticky; */
   /* top: 0; */
   z-index: 9;
+  font-weight: 650;
 }
 .tabControl {
   background-color: #fff;
@@ -174,17 +168,10 @@ export default {
   position: absolute;
   top: 44px;
   bottom: 49px;
-  /* background-color: #fff; */
 }
-/* .content{
-  height: calc(10% - 93px);
-  overflow: hidden;
-
-} */
-.tab-control{
+.tab-control {
   position: relative;
   z-index: 9;
   background-color: #fff;
 }
-
 </style>

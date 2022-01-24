@@ -70,6 +70,10 @@ export default {
     refresh() {
       this.scroll && this.scroll.refresh();
     },
+    //滚动到指定位置
+    scrollToElement(el, time) {
+      this.scroll.scrollToElement(el, time);
+    }
   },
 };
 </script>

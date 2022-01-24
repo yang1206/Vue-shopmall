@@ -17,6 +17,7 @@ export default {
   data() {
     return {
       currentIndex: 0,
+      tabTop:0
     };
   },
   props: {
@@ -31,7 +32,8 @@ export default {
     tabClick(index){
       this.currentIndex = index;
       this.$emit('tabClick',index)
-    }
+    },
+    
   }
 };
 </script>

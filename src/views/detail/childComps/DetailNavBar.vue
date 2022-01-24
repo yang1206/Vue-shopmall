@@ -1,5 +1,4 @@
 <template>
-  <div>
     <nav-bar>
       <template v-slot:left>
         <i class="fa fa-arrow-left" @click="backClick"></i>
@@ -11,14 +10,13 @@
             :key="index"
             class="title-item"
             :class="{ active: index === currentIndex }"
-            @click="titleClick(index)"
+            @click="itemClick(index)"
           >
             {{ item }}
           </div>
         </div>
       </template>
     </nav-bar>
-  </div>
 </template>
 
 <script>
@@ -33,9 +31,10 @@ export default {
     };
   },
   methods:{
-    titleClick(index){
-      this.currentIndex = index
-    },
+    itemClick(index) {
+        this.$emit('itemClick', index)
+        this.currentIndex = index
+      },
     backClick(){
       this.$router.back()
     }
