@@ -2,6 +2,7 @@
   <div>
     <nav-bar class="home-nav">
       <template v-slot:center> 购物街 </template>
+      <template v-slot:right> <a style="color:#000" href="https://github.com/yang1206/Vue-shopmall"><i class="fa fa-github"></i></a> </template>
     </nav-bar>
     <tab-control
       :titles="['流行', '新款', '精选']"
@@ -113,7 +114,7 @@ export default {
       this.listenShowBackTop(position);
       // console.log(position);
       //2.决定tabControl是否吸顶(position:fixed)
-      this.isTabFixed = -position.y > this.tabOffsetTop;
+      this.isTabFixed = -position.y > this.tabOffsetTop + 264 ;
     },
     //上拉加载更多
     loadMore() {

@@ -18,38 +18,45 @@ const routes = [
     path: '/home',
     component:Home,
     meta:{
-      show:true
+      show:true,
+      title:'首页'
     }
   },
   {
     path: '/category',
     component: Category,
     meta: {
-      show: true
+      show: true,
+      title: '分类'
     }
   },
   {
     path: '/cart',
     component: Cart,
     meta: {
-      show: true
+      show: true,
+      title: '购物车'
     }
   },
   {
     path: '/profile',
     component: Profile,
     meta: {
-      show: true
+      show: true,
+      title: '个人中心'
     }
   },
   {
     path: '/detail/:iid',
-    component: Detail
+    component: Detail,
+    meta: {
+      title: 'Supermall'
+    }
   },
 ]
 
 const router = new VueRouter({
-  mode: 'history',
+  // mode: 'history',
   base: process.env.BASE_URL,
   routes
 })

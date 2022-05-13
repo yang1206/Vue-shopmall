@@ -17,6 +17,10 @@
       <i class="fa fa-cart-arrow-down"></i>
       <div>我的购物车</div>
     </div>
+    <div class="profile-list-item">
+      <a class="fa fa-github" href="https://github.com/yang1206/Vue-shopmall"></a>
+      <div><a href="https://github.com/yang1206/Vue-shopmall">源代码</a></div>
+    </div>
   </div>
 </template>
 
@@ -51,7 +55,7 @@ export default {
   justify-content: space-between;
   border-bottom: 1px solid #dddddd;
 }
-.profile-list .profile-list-item i{
+.profile-list .profile-list-item i,a{
   width: 20%;
   text-align: center;
 }
