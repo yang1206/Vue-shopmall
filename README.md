@@ -1,5 +1,10 @@
 # shopmail
 
+
+## 项目预览地址
+https://yang1206.github.io/Supermall/
+（请使用手机访问）
+
 ## Project setup
 ```
 npm install
